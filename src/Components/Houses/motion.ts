@@ -1,5 +1,5 @@
 export const MAX_SHIFT = 40; // px máximos hacia el centro
-export const RADIUS = 280; // radio de influencia del puntero
+export const RADIUS = 80; // radio de influencia del puntero
 export const PARALLAX = 0.6; // 1 = se mueve como la página, <1 = más lento (más lejano)
 
 /** Desplazamiento en X (negativo = hacia el centro, columna derecha). */

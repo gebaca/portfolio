@@ -1,5 +1,6 @@
 import { showcaseProjects, linkLabels } from '../utils/projects';
 import type { GalleryItem, ShowcaseProject } from '../utils/projects';
+import { Link } from 'react-router-dom';
 
 // Unifica galería e imagen única en una lista de medios
 function getMedia(project: ShowcaseProject): GalleryItem[] {
@@ -133,6 +134,13 @@ export default function Works() {
           />
         ))}
       </div>
+
+      <Link
+        to='/archive'
+        className='mt-10 inline-block text-sm font-medium text-wash-500 underline underline-offset-4 hover:text-wash-700'
+      >
+        View full project archive →
+      </Link>
     </section>
   );
 }
