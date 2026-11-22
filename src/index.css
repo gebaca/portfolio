@@ -1,7 +1,37 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-paper: #fef4de;
+  --color-ink: #1b2a3a;
+
+  /*decorative colors*/
+  --color-wash-100: #8bb0cd;
+
+  /*Bordes, iconos grandes, estados hover, líneas divisorias. Texto solo si es grande*/
+  --color-wash-300: #6491b8;
+
+  /*Enlaces, botones principales, texto secundario. Pasa el nivel AA para texto normal*/
+  --color-wash-500: #2d5e8a;
+
+  /*Títulos, texto de alto contraste, fondos oscuros con texto crema encima*/
+  --color-wash-700: #143252;
+
+  /* Sombra de las casas: luz arriba a la derecha, cae abajo a la izquierda */
+  --drop-shadow-house: -5px 7px 6px rgb(27 42 58 / 0.35);
+}
+
+/* Cuando una tarjeta tiene hover o foco, el resto se desenfoca muy ligeramente */
+@media (hover: hover) {
+  .works-list:has(.work-card:is(:hover, :focus-within))
+    .work-card:not(:is(:hover, :focus-within)) {
+    filter: blur(1px);
+    opacity: 0.75;
+  }
+}
+
 html {
-  background-color: #fef4de;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
 }
 
 body {
@@ -9,6 +39,14 @@ body {
   margin: 0;
 }
 
+/* El contenido de la web queda por encima de la tira de casas (z-0).
+   Así no hay que repetir relative z-10 en cada sección. */
+#root {
+  position: relative;
+  z-index: 10;
+}
+
+/* Papel con grano procedural. Provisional: se sustituirá por la foto del papel real. */
 body::before {
   content: '';
   position: fixed;

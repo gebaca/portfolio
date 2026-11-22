@@ -35,7 +35,7 @@ export default function App() {
         </header>
 
         {/* Columna derecha con scroll */}
-        <main className='pt-24 lg:w-[52%] lg:py-24'>
+        <main className='space-y-16 pt-24 md:space-y-24 lg:w-[52%] lg:space-y-36 lg:py-24'>
           <Works />
           <Experience />
           <About />
