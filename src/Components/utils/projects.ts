@@ -30,8 +30,6 @@ export interface ShowcaseProject {
 export interface ArchivedProject {
   id: number;
   title: string;
-  year?: number;
-  context?: string; // equivale al "Made at" de la tabla de referencia
   stack: string[];
   url?: string;
 }
@@ -50,8 +48,16 @@ export const showcaseProjects: ShowcaseProject[] = [
     image: '/proyectos/threaded/Animation-new.gif',
     imageAlt:
       'Threaded prototype: a permission change communicated through motion and visual cues',
-    // TODO: poster con un fotograma estático del GIF
-    // TODO: cuando tengas la URL del paper, añade links: [{ kind: 'paper', href: '...' }]
+    links: [
+      {
+        kind: 'paper',
+        href: 'https://www.youtube.com/watch?v=P027oGJy2n4&list=RDyzCHcqkPbcE&index=13',
+      }, // TODO: URL del paper
+      {
+        kind: 'live',
+        href: 'https://www.youtube.com/watch?v=P027oGJy2n4&list=RDyzCHcqkPbcE&index=13',
+      }, // TODO: URL del segundo enlace (¿prototipo?)
+    ],
   },
   {
     id: 2,
@@ -81,6 +87,13 @@ export const showcaseProjects: ShowcaseProject[] = [
       },
     ],
     stack: ['React', 'TypeScript', 'GSAP', 'Tailwind CSS', 'Figma'],
+  },
+  {
+    id: 4,
+    title: 'gerardbataller.com(v2)',
+    description: '',
+    image: '/proyectos/portfolio',
+    links: [{ kind: 'live', href: 'https://gerard-bataller.vercel.app/' }],
   },
 ];
 
@@ -172,7 +185,7 @@ export const archivedProjects: ArchivedProject[] = [
   {
     id: 17,
     title: 'Ray Marching Videogame',
-    stack: ['Unity', 'C#'],
+    stack: ['Unity', 'C#', 'C++', 'HLSL'],
     url: 'https://gebaca.itch.io/ciclico',
   },
 ];

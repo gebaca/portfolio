@@ -7,7 +7,8 @@ function displayUrl(url: string) {
 
 export default function Archive() {
   return (
-    <main className='mx-auto min-h-screen max-w-3xl px-6 py-16 md:px-12'>
+    // lg:pr-52 reserva el hueco de la tira de casas (unos 194 px visibles como máximo)
+    <main className='mx-auto min-h-screen max-w-7xl px-6 py-16 md:px-12 md:py-24 lg:pr-52'>
       <Link
         to='/#works'
         className='text-base font-medium text-wash-500 hover:text-highlight'
@@ -15,42 +16,32 @@ export default function Archive() {
         ← Back
       </Link>
 
-      <h1 className='mt-6 text-3xl font-bold text-text'>All Projects</h1>
+      <h1 className='mt-8 text-3xl'>All Projects</h1>
 
-      <table className='mt-10 w-full border-collapse text-left'>
+      <table className='mt-12 w-full border-collapse text-left'>
         <thead>
-          <tr className='border-b border-ink/20 text-xs uppercase tracking-wide text-ink/70'>
-            <th scope='col' className='py-3 pr-4 font-medium'>
-              Year
-            </th>
-            <th scope='col' className='py-3 pr-4 font-medium'>
+          <tr className='border-b border-ink/20 text-xs uppercase tracking-widest text-ink/70'>
+            <th scope='col' className='py-4 pr-6 font-medium sm:w-[32%]'>
               Project
             </th>
             <th
               scope='col'
-              className='hidden py-3 pr-4 font-medium md:table-cell'
-            >
-              Made at
-            </th>
-            <th
-              scope='col'
-              className='hidden py-3 pr-4 font-medium lg:table-cell'
+              className='hidden py-4 pr-6 font-medium lg:table-cell'
             >
               Built with
             </th>
-            <th scope='col' className='hidden py-3 font-medium sm:table-cell'>
+            <th
+              scope='col'
+              className='hidden w-44 py-4 font-medium sm:table-cell'
+            >
               Link
             </th>
           </tr>
         </thead>
         <tbody>
           {archivedProjects.map((project) => (
-            <tr
-              key={project.id}
-              className='border-b border-ink/10 align-top'
-            >
-              <td className='py-4 pr-4 text-ink/70'>{project.year ?? '—'}</td>
-              <td className='py-4 pr-4 font-semibold text-ink'>
+            <tr key={project.id} className='border-b border-ink/10 align-top'>
+              <td className='py-5 pr-6 font-semibold text-ink'>
                 {project.url ? (
                   <a
                     href={project.url}
@@ -65,10 +56,7 @@ export default function Archive() {
                   project.title
                 )}
               </td>
-              <td className='hidden py-4 pr-4 text-ink/80 md:table-cell'>
-                {project.context ?? '—'}
-              </td>
-              <td className='hidden py-4 pr-4 lg:table-cell'>
+              <td className='hidden py-5 pr-6 lg:table-cell'>
                 <ul className='flex flex-wrap gap-2'>
                   {project.stack.map((technology) => (
                     <li
@@ -80,7 +68,7 @@ export default function Archive() {
                   ))}
                 </ul>
               </td>
-              <td className='hidden py-4 sm:table-cell'>
+              <td className='hidden py-5 sm:table-cell'>
                 {project.url && (
                   <a
                     href={project.url}
