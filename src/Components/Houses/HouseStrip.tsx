@@ -16,7 +16,7 @@ export default function HouseStrip() {
         piecesNeeded(
           document.documentElement.scrollHeight,
           window.innerHeight,
-          PIECE.height
+          PIECE[0].height
         )
       );
     };

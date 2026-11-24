@@ -10,12 +10,12 @@ export default function Archive() {
     <main className='mx-auto min-h-screen max-w-3xl px-6 py-16 md:px-12'>
       <Link
         to='/#works'
-        className='text-sm font-medium text-wash-500 hover:text-wash-700'
+        className='text-base font-medium text-wash-500 hover:text-highlight'
       >
         ← Back
       </Link>
 
-      <h1 className='mt-6 text-3xl font-bold text-[#01054E]'>All Projects</h1>
+      <h1 className='mt-6 text-3xl font-bold text-text'>All Projects</h1>
 
       <table className='mt-10 w-full border-collapse text-left'>
         <thead>
@@ -47,7 +47,7 @@ export default function Archive() {
           {archivedProjects.map((project) => (
             <tr
               key={project.id}
-              className='border-b border-ink/10 align-top text-sm'
+              className='border-b border-ink/10 align-top'
             >
               <td className='py-4 pr-4 text-ink/70'>{project.year ?? '—'}</td>
               <td className='py-4 pr-4 font-semibold text-ink'>
@@ -56,7 +56,7 @@ export default function Archive() {
                     href={project.url}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='hover:text-wash-500'
+                    className='hover:text-highlight'
                   >
                     {project.title}
                     <span className='sr-only'> (opens in a new tab)</span>
@@ -88,7 +88,7 @@ export default function Archive() {
                     rel='noopener noreferrer'
                     aria-hidden='true'
                     tabIndex={-1}
-                    className='text-wash-500 underline underline-offset-4 hover:text-wash-700'
+                    className='text-wash-500 underline underline-offset-4 hover:text-highlight'
                   >
                     {displayUrl(project.url)}
                   </a>

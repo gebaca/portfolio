@@ -1,21 +1,6 @@
-import { showcaseProjects, linkLabels } from '../utils/projects';
-import type { GalleryItem, ShowcaseProject } from '../utils/projects';
 import { Link } from 'react-router-dom';
-
-// Unifica galería e imagen única en una lista de medios
-function getMedia(project: ShowcaseProject): GalleryItem[] {
-  if (project.gallery?.length) return project.gallery;
-  if (project.image) {
-    return [
-      {
-        label: '',
-        alt: project.imageAlt ?? `${project.title} preview`,
-        src: project.image,
-      },
-    ];
-  }
-  return [];
-}
+import { showcaseProjects, linkLabels } from '../utils/projects';
+import type { ShowcaseProject } from '../utils/projects';
 
 function ProjectCard({
   project,
@@ -25,12 +10,11 @@ function ProjectCard({
   priority: boolean;
 }) {
   const paragraphs = project.description.split('\n\n');
-  const media = getMedia(project);
 
   return (
     // py-6 en vez de space-y: así no hay huecos sin hover entre tarjetas
     <article className='work-card py-6 transition-[filter,opacity] duration-300 motion-reduce:transition-none'>
-      <h3 className='font-semibold leading-snug text-ink'>
+      <h3>
         {project.title}
         {project.subtitle && (
           <span className='font-normal text-ink/70'> · {project.subtitle}</span>
@@ -39,46 +23,29 @@ function ProjectCard({
 
       <div className='mt-3 space-y-3'>
         {paragraphs.map((paragraph, index) => (
-          <p key={index} className='text-sm leading-relaxed text-ink/80'>
-            {paragraph}
-          </p>
+          <p key={index}>{paragraph}</p>
         ))}
       </div>
 
       {project.results && (
-        <p className='mt-3 text-sm font-medium text-wash-700'>
-          {project.results}
-        </p>
+        <p className='mt-3 font-medium text-wash-700'>{project.results}</p>
       )}
 
-      {media.length > 0 && (
-        <div className='mt-5 space-y-6'>
-          {media.map((item, index) => (
-            <figure key={item.src}>
-              <picture>
-                {/* Con movimiento reducido, el navegador usa el fotograma estático */}
-                {item.poster && (
-                  <source
-                    media='(prefers-reduced-motion: reduce)'
-                    srcSet={item.poster}
-                  />
-                )}
-                <img
-                  src={item.src}
-                  alt={item.alt}
-                  loading={priority && index === 0 ? 'eager' : 'lazy'}
-                  className='h-auto w-full rounded border border-ink/10'
-                />
-              </picture>
-              {item.label && (
-                <figcaption className='mt-2 text-xs font-medium uppercase tracking-wide text-ink/70'>
-                  {item.label}
-                </figcaption>
-              )}
-            </figure>
-          ))}
-        </div>
-      )}
+      <picture className='mt-5 block'>
+        {/* Con movimiento reducido, el navegador usa el fotograma estático */}
+        {project.poster && (
+          <source
+            media='(prefers-reduced-motion: reduce)'
+            srcSet={project.poster}
+          />
+        )}
+        <img
+          src={project.image}
+          alt={project.imageAlt ?? `${project.title} preview`}
+          loading={priority ? 'eager' : 'lazy'}
+          className='h-auto w-full rounded border border-ink/10'
+        />
+      </picture>
 
       {project.links && project.links.length > 0 && (
         <ul className='mt-5 flex flex-wrap gap-x-5 gap-y-1'>
@@ -88,7 +55,7 @@ function ProjectCard({
                 href={link.href}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-sm font-medium text-wash-500 underline underline-offset-4 hover:text-wash-700'
+                className='text-base font-medium text-wash-500 underline underline-offset-4 hover:text-highlight'
               >
                 {linkLabels[link.kind]}
                 <span className='sr-only'> (opens in a new tab)</span>
@@ -137,7 +104,7 @@ export default function Works() {
 
       <Link
         to='/archive'
-        className='mt-10 inline-block text-sm font-medium text-wash-500 underline underline-offset-4 hover:text-wash-700'
+        className='mt-10 inline-block text-base font-medium text-wash-500 underline underline-offset-4 hover:text-highlight'
       >
         View full project archive →
       </Link>

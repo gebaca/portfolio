@@ -18,15 +18,15 @@ export default function NavSection() {
   };
 
   return (
-    <nav className='flex flex-col items-start gap-3'>
+    <nav className='flex flex-col items-start gap-3 font-display'>
       {NAV_ITEMS.map((item) => (
         <button
           key={item.targetId}
           type='button'
           onClick={() => handleScroll(item.targetId)}
-          className='group flex items-center py-2 text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-slate-200 focus-visible:text-slate-200'
+          className='group flex items-center py-1.5 text-sm uppercase tracking-wider text-text/75 transition-colors hover:text-highlight focus-visible:text-highlight'
         >
-          <span className='mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200 group-focus-visible:w-16 group-focus-visible:bg-slate-200' />
+          <span className='mr-4 h-[1.5px] w-8 bg-text/40 transition-all group-hover:w-16 group-hover:bg-highlight group-focus-visible:w-16 group-focus-visible:bg-highlight' />
           <span>{item.label}</span>
         </button>
       ))}

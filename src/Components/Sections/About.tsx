@@ -5,16 +5,16 @@ export default function About() {
       aria-label='About me'
       className='mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24'
     >
-      <div className='sticky top-0 z-20 -mx-6 mb-4 w-screen bg-[#FEF4DE]/80 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0'>
-        <h2 className='text-sm font-bold uppercase tracking-widest text-[#01054E] lg:sr-only'>
+      <div className='sticky top-0 z-20 -mx-6 mb-4 w-screen bg-bg/80 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0'>
+        <h2 className='text-sm font-bold uppercase tracking-widest text-text lg:sr-only'>
           About
         </h2>
       </div>
 
-      <div className='space-y-4 leading-relaxed text-[#01054E]/80'>
+      <div className='space-y-4 leading-relaxed text-text/80'>
         <p>
           I see{' '}
-          <strong className='font-semibold text-[#01054E]'>
+          <strong className='font-semibold text-text'>
             design and programming
           </strong>{' '}
           as interconnected parts of building digital products. Understanding
@@ -32,7 +32,7 @@ export default function About() {
           </strong>{' '}
           to understand how things behave before committing to a solution. I
           also{' '}
-          <strong className='font-semibold text-[#01054E]'>
+          <strong className='font-semibold text-text'>
             document the reasoning
           </strong>{' '}
           behind my decisions, so they can be understood, discussed and
@@ -42,7 +42,7 @@ export default function About() {
         <p>
           I&apos;m particularly drawn to the evolution of digital products,
           especially how{' '}
-          <strong className='font-semibold text-[#01054E]'>
+          <strong className='font-semibold text-text'>
             animation and visual communication
           </strong>{' '}
           can make complex software easier to understand. I&apos;m looking for a

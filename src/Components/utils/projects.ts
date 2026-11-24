@@ -12,28 +12,16 @@ export const linkLabels: Record<LinkKind, string> = {
   paper: 'Paper',
 };
 
-export type ProjectVideo =
-  | { kind: 'youtube'; id: string }
-  | { kind: 'file'; src: string; poster?: string };
-
-export interface GalleryItem {
-  label: string;
-  alt: string;
-  src: string; // ruta del archivo en /public
-  poster?: string; // fotograma estático para prefers-reduced-motion
-}
-
-/** Proyecto destacado: tarjeta con imagen, vídeo opcional y enlaces opcionales. */
+/** Proyecto destacado: tarjeta con una imagen o GIF y enlaces opcionales. */
 export interface ShowcaseProject {
   id: number;
   title: string;
   subtitle?: string;
   description: string;
   results?: string;
-  image?: string; // si falta, la tarjeta puede usar gallery[0]
-  imageAlt?: string;
-  video?: ProjectVideo;
-  gallery?: GalleryItem[];
+  image: string; // imagen o GIF
+  imageAlt?: string; // si falta, la tarjeta usa "<título> preview"
+  poster?: string; // fotograma estático del GIF para prefers-reduced-motion
   links?: ProjectLink[];
   stack?: string[];
 }
@@ -59,24 +47,11 @@ export const showcaseProjects: ShowcaseProject[] = [
       'A design research project exploring how animation can help users notice and understand permission changes in complex software.\n\nThe paper introduces Threaded, a visual prototype demonstrating how changes in access permissions could be communicated through motion and visual cues.',
     results:
       '8/9 participants noticed the change in the standard interface, compared with 9/9 using Threaded.',
+    image: '/proyectos/threaded/Animation-new.gif',
+    imageAlt:
+      'Threaded prototype: a permission change communicated through motion and visual cues',
+    // TODO: poster con un fotograma estático del GIF
     // TODO: cuando tengas la URL del paper, añade links: [{ kind: 'paper', href: '...' }]
-    gallery: [
-      {
-        label: '01 — Standard',
-        alt: 'Standard interface: a permission change without a prominent visual cue',
-        src: '/proyectos/threaded/Animation.gif',
-      },
-      {
-        label: '02 — Threaded',
-        alt: 'Threaded prototype: the same permission change communicated through motion and visual cues',
-        src: '/proyectos/threaded/Animation-new.gif',
-      },
-      {
-        label: '03 — Research findings',
-        alt: 'Study results: 8 of 9 participants noticed the change in the standard interface, 9 of 9 with Threaded',
-        src: '/proyectos/threaded/cap.png',
-      },
-    ],
   },
   {
     id: 2,

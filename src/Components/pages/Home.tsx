@@ -10,13 +10,9 @@ export default function Home() {
         {/* Columna izquierda fija */}
         <header className='lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[48%] lg:flex-col lg:justify-between lg:py-24'>
           <div>
-            <h1 className='text-4xl font-bold tracking-tight sm:text-5xl text-[#01054E]'>
-              Gerard Bataller Canet
-            </h1>
-            <h2 className='mt-3 text-lg font-medium sm:text-xl text-[#01054E]'>
-              Frontend Developer
-            </h2>
-            <p className='mt-4 max-w-xs leading-normal text-[#01054E]'>
+            <h1>Gerard Bataller Canet</h1>
+            <h2 className='mt-3'>Frontend Developer</h2>
+            <p className='mt-4 max-w-xs'>
               I bring design and programming together to shape how digital
               products look, behave, and work.
             </p>

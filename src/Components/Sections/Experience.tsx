@@ -41,7 +41,7 @@ const experiences = [
 export default function Experience() {
   return (
     <section id='experience' className='scroll-mt-24'>
-      <h2 className='mb-8 text-sm font-semibold uppercase tracking-widest text-neutral-500 lg:hidden'>
+      <h2 className='mb-8 text-sm font-semibold uppercase tracking-widest text-muted lg:hidden'>
         Experience
       </h2>
 
@@ -52,16 +52,16 @@ export default function Experience() {
             className='group grid grid-cols-1 gap-2 sm:grid-cols-[140px_1fr] sm:gap-6'
           >
             {/* Date */}
-            <p className='pt-1 text-xs font-medium uppercase tracking-wide text-neutral-500'>
+            <p className='pt-1 text-xs font-medium uppercase tracking-wide text-muted'>
               {experience.period}
             </p>
 
             {/* Experience details */}
             <div>
-              <h3 className='font-semibold leading-snug text-neutral-900 dark:text-neutral-100'>
+              <h3>
                 {experience.role}
-                <span className='text-neutral-500'> · </span>
-                <span className='transition-colors group-hover:text-blue-500'>
+                <span className='text-muted'> · </span>
+                <span className='transition-colors group-hover:text-highlight'>
                   {experience.company}
                 </span>
               </h3>
@@ -70,7 +70,7 @@ export default function Experience() {
                 {experience.description.map((item, index) => (
                   <li
                     key={index}
-                    className='text-sm leading-relaxed text-neutral-600 dark:text-neutral-400'
+                    className='text-text/80'
                   >
                     {item}
                   </li>
@@ -82,7 +82,7 @@ export default function Experience() {
                 {experience.technologies.map((technology) => (
                   <span
                     key={technology}
-                    className='rounded-full bg-blue-100/70 px-3 py-1 text-xs font-medium text-blue-800 dark:bg-blue-400/10 dark:text-blue-300'
+                    className='rounded-full bg-wash-100/70 px-3 py-1 text-xs font-medium text-wash-700'
                   >
                     {technology}
                   </span>
