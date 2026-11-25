@@ -12,7 +12,7 @@ export const linkLabels: Record<LinkKind, string> = {
   paper: 'Paper',
 };
 
-/** Proyecto destacado: tarjeta con una imagen o GIF y enlaces opcionales. */
+/** Proyecto destacado: tarjeta con una imagen o GIF y un enlace opcional. */
 export interface ShowcaseProject {
   id: number;
   title: string;
@@ -22,7 +22,7 @@ export interface ShowcaseProject {
   image: string; // imagen o GIF
   imageAlt?: string; // si falta, la tarjeta usa "<título> preview"
   poster?: string; // fotograma estático del GIF para prefers-reduced-motion
-  links?: ProjectLink[];
+  link?: ProjectLink;
   stack?: string[];
 }
 
@@ -48,16 +48,10 @@ export const showcaseProjects: ShowcaseProject[] = [
     image: '/proyectos/threaded/Animation-new.gif',
     imageAlt:
       'Threaded prototype: a permission change communicated through motion and visual cues',
-    links: [
-      {
-        kind: 'paper',
-        href: 'https://www.youtube.com/watch?v=P027oGJy2n4&list=RDyzCHcqkPbcE&index=13',
-      }, // TODO: URL del paper
-      {
-        kind: 'live',
-        href: 'https://www.youtube.com/watch?v=P027oGJy2n4&list=RDyzCHcqkPbcE&index=13',
-      }, // TODO: URL del segundo enlace (¿prototipo?)
-    ],
+    link: {
+      kind: 'paper',
+      href: 'https://www.youtube.com/watch?v=P027oGJy2n4&list=RDyzCHcqkPbcE&index=13',
+    },
   },
   {
     id: 2,
@@ -65,13 +59,10 @@ export const showcaseProjects: ShowcaseProject[] = [
     description:
       'A B2B wealth management dashboard, from case study to working prototype.',
     image: '/proyectos/WAVES.webp',
-    links: [
-      { kind: 'live', href: 'https://horizon-wealth-dashboard.vercel.app/' },
-      {
-        kind: 'case-study',
-        href: 'https://app.notion.com/p/Case-Study-B2B-Wealth-Management-Dashboard-b83dc31e4e2144bd9469a83947d1c2d9?source=copy_link',
-      },
-    ],
+    link: {
+      kind: 'live',
+      href: 'https://horizon-wealth-dashboard.vercel.app/',
+    },
     stack: ['React', 'TypeScript', 'GSAP', 'Tailwind CSS'],
   },
   {
@@ -80,12 +71,10 @@ export const showcaseProjects: ShowcaseProject[] = [
     description:
       'A case study on B2B software for football academies: research, product thinking and design.',
     image: '/proyectos/football.png',
-    links: [
-      {
-        kind: 'case-study',
-        href: 'https://app.notion.com/p/SaaS-Football-Academy-3608d03cc89680f3a004ebd86ba23143',
-      },
-    ],
+    link: {
+      kind: 'case-study',
+      href: 'https://app.notion.com/p/SaaS-Football-Academy-3608d03cc89680f3a004ebd86ba23143',
+    },
     stack: ['React', 'TypeScript', 'GSAP', 'Tailwind CSS', 'Figma'],
   },
   {
@@ -93,7 +82,10 @@ export const showcaseProjects: ShowcaseProject[] = [
     title: 'gerardbataller.com(v2)',
     description: '',
     image: '/proyectos/portfolio',
-    links: [{ kind: 'live', href: 'https://gerard-bataller.vercel.app/' }],
+    link: {
+      kind: 'live',
+      href: 'https://gerard-bataller.vercel.app/',
+    },
   },
 ];
 
@@ -102,7 +94,6 @@ export const showcaseProjects: ShowcaseProject[] = [
 const EXPERIMENTS_URL = 'https://experiments-tan.vercel.app/experiment';
 const EXPERIMENT_STACK = ['React', 'GSAP', 'TypeScript'];
 
-// TODO: añade `year` (y `context` si aplica) a cada entrada
 export const archivedProjects: ArchivedProject[] = [
   {
     id: 4,

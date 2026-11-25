@@ -27,7 +27,7 @@ export function useParallaxStrip(
             motion: boolean;
             fine: boolean;
           };
-          if (!motion) return; // movimiento reducido: la tira se queda quieta
+          if (!motion) return;
 
           const elements = gsap.utils.toArray<HTMLElement>(
             itemSelector,
@@ -37,7 +37,7 @@ export function useParallaxStrip(
 
           const setColumnY = gsap.quickSetter(column, 'y', 'px');
 
-          // La ola solo con ratón. En táctil queda el parallax del scroll.
+          // Solo desplazamiento horizontal (ola con ratón) para no abrir huecos verticales entre casas
           const quickXs = fine
             ? elements.map((el, i) =>
                 gsap.quickTo(el, 'x', {
@@ -47,10 +47,9 @@ export function useParallaxStrip(
               )
             : [];
 
-          // Centros respecto a la columna. offsetTop no depende de transforms ni del scroll.
           let baseCenters: number[] = [];
-          let pointerY = Number.POSITIVE_INFINITY; // "fuera": todas las piezas a reposo
-          let lastScroll = NaN; // NaN fuerza el primer render
+          let pointerY = Number.POSITIVE_INFINITY;
+          let lastScroll = NaN;
           let lastPointer = NaN;
 
           const measure = () => {
@@ -61,7 +60,9 @@ export function useParallaxStrip(
           };
           measure();
 
-          // Único escritor: se ejecuta en cada frame, pero sale pronto si nada cambió
+          const resizeObserver = new ResizeObserver(measure);
+          resizeObserver.observe(column);
+
           const render = () => {
             const scrollY = window.scrollY;
             if (scrollY === lastScroll && pointerY === lastPointer) return;
@@ -93,6 +94,7 @@ export function useParallaxStrip(
           }
 
           return () => {
+            resizeObserver.disconnect();
             gsap.ticker.remove(render);
             window.removeEventListener('pointermove', onPointerMove);
             document.documentElement.removeEventListener(
