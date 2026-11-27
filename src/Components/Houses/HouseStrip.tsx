@@ -15,12 +15,14 @@ interface HouseStripProps {
   side?: StripSide;
   variant?: StripVariant;
   parallaxFactor?: number;
+  shiftScale?: number;
 }
 
 export default function HouseStrip({
   side = 'right',
   variant = 'full',
   parallaxFactor,
+  shiftScale,
 }: HouseStripProps) {
   const isLeft = side === 'left';
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -40,6 +42,7 @@ export default function HouseStrip({
     side,
     variant,
     parallaxFactor,
+    shiftScale,
   });
 
   const scale = BASE_SCALE * factor;

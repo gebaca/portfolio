@@ -16,6 +16,7 @@ interface StripOptions {
   side?: StripSide;
   variant?: StripVariant;
   parallaxFactor?: number;
+  shiftScale?: number;
   itemSelector?: string;
   duration?: number;
 }
@@ -39,6 +40,7 @@ export function useParallaxStrip(
     side = 'right',
     variant = 'full',
     parallaxFactor = PARALLAX,
+    shiftScale = side === 'left' ? 0.35 : 1,
     itemSelector = '[data-piece]',
     duration = 0.25,
   } = options;
@@ -136,12 +138,14 @@ export function useParallaxStrip(
               const pieceCenterY = pieceRect.top + pieceRect.height / 2;
 
               let shift =
-                getShift(effectivePointerY, pieceCenterY, hoverBand) +
+                getShift(effectivePointerY, pieceCenterY, hoverBand) *
+                  shiftScale +
                 extraXs[i];
 
               if (pulse.amount > 0) {
                 shift +=
                   getShift(pulseY, pieceCenterY, null) *
+                  shiftScale *
                   PULSE_BOOST *
                   pulse.amount;
               }
@@ -212,6 +216,7 @@ export function useParallaxStrip(
         side,
         variant,
         parallaxFactor,
+        shiftScale,
         itemSelector,
         duration,
       ],

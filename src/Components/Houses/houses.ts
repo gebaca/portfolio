@@ -51,6 +51,7 @@ export const PIECES_LEFT: Omit<HousePiece, 'id'>[] = [
     image: '/casas/izquierda/h4.webp',
     width: 881,
     height: 326,
+    offsetY: -10,
   },
   { image: '/casas/izquierda/h5.webp', width: 849, height: 220 },
   { image: '/casas/izquierda/h6.webp', width: 729, height: 238 },
