@@ -1,12 +1,20 @@
 import type { RefObject } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { getShift, PARALLAX } from './motion';
+import { getShift, PARALLAX, type HoverBand } from './motion';
+import {
+  getActiveFocusTarget,
+  subscribeFocusTarget,
+  type ActiveFocusTarget,
+} from './houseFocus';
+import type { HousePiece } from './houses';
 
 export function useParallaxStrip(
   containerRef: RefObject<HTMLDivElement | null>,
   columnRef: RefObject<HTMLDivElement | null>,
   count: number,
+  pieces: HousePiece[] = [],
+  factor: number = 1,
   itemSelector: string = '[data-piece]',
   duration: number = 0.25
 ) {
@@ -27,7 +35,7 @@ export function useParallaxStrip(
             motion: boolean;
             fine: boolean;
           };
-          if (!motion) return;
+          if (!motion || !fine) return;
 
           const elements = gsap.utils.toArray<HTMLElement>(
             itemSelector,
@@ -35,48 +43,62 @@ export function useParallaxStrip(
           );
           if (!elements.length) return;
 
+          const extraXs = elements.map((_, i) =>
+            Math.round((pieces[i]?.shiftX ?? 0) * factor)
+          );
+
           const setColumnY = gsap.quickSetter(column, 'y', 'px');
+          const quickXs = elements.map((el, i) =>
+            gsap.quickTo(el, 'x', {
+              duration: duration + (i % 6) * 0.03,
+              ease: 'power3.out',
+            })
+          );
 
-          // Solo desplazamiento horizontal (ola con ratón) para no abrir huecos verticales entre casas
-          const quickXs = fine
-            ? elements.map((el, i) =>
-                gsap.quickTo(el, 'x', {
-                  duration: duration + (i % 6) * 0.03,
-                  ease: 'power3.out',
-                })
-              )
-            : [];
-
-          let baseCenters: number[] = [];
           let pointerY = Number.POSITIVE_INFINITY;
+          let activeTarget: ActiveFocusTarget | null = getActiveFocusTarget();
           let lastScroll = NaN;
           let lastPointer = NaN;
-
-          const measure = () => {
-            baseCenters = elements.map(
-              (el) => el.offsetTop + el.offsetHeight / 2
-            );
-            lastScroll = NaN;
-          };
-          measure();
-
-          const resizeObserver = new ResizeObserver(measure);
-          resizeObserver.observe(column);
+          let lastTargetKey: string | null = null;
 
           const render = () => {
             const scrollY = window.scrollY;
-            if (scrollY === lastScroll && pointerY === lastPointer) return;
+            const targetKey = activeTarget ? activeTarget.key : null;
+
+            const rect = activeTarget ? activeTarget.getViewportRect() : null;
+            const hoverBand: HoverBand | null = rect
+              ? { top: rect.top, bottom: rect.bottom }
+              : null;
+
+            if (
+              scrollY === lastScroll &&
+              pointerY === lastPointer &&
+              targetKey === lastTargetKey &&
+              !hoverBand
+            ) {
+              return;
+            }
+
             lastScroll = scrollY;
             lastPointer = pointerY;
+            lastTargetKey = targetKey;
 
-            const offset = scrollY * PARALLAX;
+            const offset = Math.round(scrollY * PARALLAX);
             setColumnY(-offset);
 
-            if (!fine) return;
             for (let i = 0; i < elements.length; i++) {
-              quickXs[i](getShift(pointerY, baseCenters[i] - offset));
+              const pieceRect = elements[i].getBoundingClientRect();
+              const pieceCenterY = pieceRect.top + pieceRect.height / 2;
+              quickXs[i](
+                getShift(pointerY, pieceCenterY, hoverBand) + extraXs[i]
+              );
             }
           };
+
+          const unsubscribe = subscribeFocusTarget((target) => {
+            activeTarget = target;
+            lastTargetKey = null;
+          });
 
           const onPointerMove = (e: PointerEvent) => {
             pointerY = e.clientY;
@@ -86,15 +108,13 @@ export function useParallaxStrip(
           };
 
           gsap.ticker.add(render);
-          if (fine) {
-            window.addEventListener('pointermove', onPointerMove, {
-              passive: true,
-            });
-            document.documentElement.addEventListener('pointerleave', onLeave);
-          }
+          window.addEventListener('pointermove', onPointerMove, {
+            passive: true,
+          });
+          document.documentElement.addEventListener('pointerleave', onLeave);
 
           return () => {
-            resizeObserver.disconnect();
+            unsubscribe();
             gsap.ticker.remove(render);
             window.removeEventListener('pointermove', onPointerMove);
             document.documentElement.removeEventListener(
@@ -107,6 +127,9 @@ export function useParallaxStrip(
 
       return () => mm.revert();
     },
-    { scope: containerRef, dependencies: [count, itemSelector, duration] }
+    {
+      scope: containerRef,
+      dependencies: [count, pieces, factor, itemSelector, duration],
+    }
   );
 }

@@ -1,6 +1,8 @@
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { showcaseProjects, linkLabels } from '../utils/projects';
 import type { ShowcaseProject } from '../utils/projects';
+import { setActiveFocusTarget, type FocusMode } from '../Houses/houseFocus';
 
 function ExternalArrowIcon() {
   return (
@@ -27,15 +29,38 @@ function ProjectCard({
   project: ShowcaseProject;
   priority: boolean;
 }) {
+  const cardRef = useRef<HTMLElement | null>(null);
   const paragraphs = project.description
     ? project.description.split('\n\n')
     : [];
   const hasLink = Boolean(project.link?.href);
   const linkLabel = project.link ? linkLabels[project.link.kind] : '';
 
+  const reportBand = (mode: FocusMode) => {
+    setActiveFocusTarget({
+      key: `project-${project.id}`,
+      mode,
+      getViewportRect: () => {
+        const el = cardRef.current;
+        if (!el) return null;
+        const rect = el.getBoundingClientRect();
+        return { top: rect.top, bottom: rect.bottom };
+      },
+    });
+  };
+
+  const clearBand = () => {
+    setActiveFocusTarget(null);
+  };
+
   return (
     <article
-      className={`work-card group relative py-6 transition-[filter,opacity] duration-300 motion-reduce:transition-none ${
+      ref={cardRef}
+      onPointerEnter={() => reportBand('project')}
+      onPointerLeave={clearBand}
+      onFocus={() => reportBand('project')}
+      onBlur={clearBand}
+      className={`work-card group relative py-6 transition-[filter,opacity] duration-100 motion-reduce:transition-none ${
         hasLink ? 'cursor-pointer' : ''
       }`}
     >
@@ -127,6 +152,25 @@ function ProjectCard({
 }
 
 export default function Works() {
+  const archiveLinkRef = useRef<HTMLAnchorElement | null>(null);
+
+  const reportArchiveLink = () => {
+    setActiveFocusTarget({
+      key: 'archive-link',
+      mode: 'single',
+      getViewportRect: () => {
+        const el = archiveLinkRef.current;
+        if (!el) return null;
+        const rect = el.getBoundingClientRect();
+        return { top: rect.top, bottom: rect.bottom };
+      },
+    });
+  };
+
+  const clearArchiveLink = () => {
+    setActiveFocusTarget(null);
+  };
+
   return (
     <section
       id='works'
@@ -148,10 +192,21 @@ export default function Works() {
       </div>
 
       <Link
+        ref={archiveLinkRef}
         to='/archive'
-        className='mt-10 inline-block text-base font-medium text-wash-500 underline underline-offset-4 hover:text-highlight'
+        onPointerEnter={reportArchiveLink}
+        onPointerLeave={clearArchiveLink}
+        onFocus={reportArchiveLink}
+        onBlur={clearArchiveLink}
+        className='group mt-10 inline-flex items-center gap-1.5 text-base font-medium leading-tight text-ink transition-colors hover:text-highlight focus-visible:text-highlight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-highlight motion-reduce:transition-none'
       >
-        View full project archive →
+        <span>View Full Project Archive</span>
+        <span
+          aria-hidden='true'
+          className='inline-block transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none'
+        >
+          →
+        </span>
       </Link>
     </section>
   );

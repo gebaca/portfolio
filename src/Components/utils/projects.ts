@@ -58,7 +58,7 @@ export const showcaseProjects: ShowcaseProject[] = [
     title: 'Wealth Watcher',
     description:
       'A B2B wealth management dashboard, from case study to working prototype.',
-    image: '/proyectos/WAVES.webp',
+    image: '/proyectos/Wealthwatcher/wealthwatcher.gif',
     link: {
       kind: 'live',
       href: 'https://horizon-wealth-dashboard.vercel.app/',
@@ -66,26 +66,27 @@ export const showcaseProjects: ShowcaseProject[] = [
     stack: ['React', 'TypeScript', 'GSAP', 'Tailwind CSS'],
   },
   {
+    id: 4,
+    title: 'gerardbataller.com(v2)',
+    description: 'Previous portfolio website',
+    image: '/proyectos/portfolio/portfolio.gif',
+    link: {
+      kind: 'live',
+      href: 'https://gerard-bataller.vercel.app/',
+    },
+    stack: ['React', 'TypeScript', 'GSAP', 'Tailwind CSS', 'Figma'],
+  },
+  {
     id: 3,
     title: 'Football B2B',
     description:
       'A case study on B2B software for football academies: research, product thinking and design.',
-    image: '/proyectos/football.png',
+    image: '/proyectos/footballB2B/football.gif',
     link: {
       kind: 'case-study',
       href: 'https://app.notion.com/p/SaaS-Football-Academy-3608d03cc89680f3a004ebd86ba23143',
     },
     stack: ['React', 'TypeScript', 'GSAP', 'Tailwind CSS', 'Figma'],
-  },
-  {
-    id: 4,
-    title: 'gerardbataller.com(v2)',
-    description: '',
-    image: '/proyectos/portfolio',
-    link: {
-      kind: 'live',
-      href: 'https://gerard-bataller.vercel.app/',
-    },
   },
 ];
 
@@ -178,5 +179,11 @@ export const archivedProjects: ArchivedProject[] = [
     title: 'Ray Marching Videogame',
     stack: ['Unity', 'C#', 'C++', 'HLSL'],
     url: 'https://gebaca.itch.io/ciclico',
+  },
+  {
+    id: 18,
+    title: 'component animation trilogy',
+    stack: ['typescript', 'GSAP', 'FramerMotion'],
+    url: 'https://app.notion.com/p/component-animation-trilogy-3778d03cc89680dea806d56069e2376b',
   },
 ];

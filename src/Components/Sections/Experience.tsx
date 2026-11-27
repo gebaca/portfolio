@@ -147,6 +147,15 @@ export default function Experience() {
           );
         })}
       </div>
+      <a
+        href='/docs/CV_GerardBC.pdf'
+        target='_blank'
+        aria-label='Download my CV (PDF)'
+        className='group mt-12 inline-flex items-baseline font-medium transition-colors hover:text-highlight focus-visible:text-highlight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-highlight'
+      >
+        Download CV
+        <ExternalArrowIcon />
+      </a>
     </section>
   );
 }
