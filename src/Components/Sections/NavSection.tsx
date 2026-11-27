@@ -13,25 +13,24 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 const CONTACT = {
-  github: 'https://github.com/tu-usuario',
-  linkedin: 'https://www.linkedin.com/in/tu-usuario',
-  phone: '+34 600 000 000',
-  email: 'tu@correo.com',
+  github: 'https://github.com/gebaca',
+  linkedin: 'https://www.linkedin.com/in/gerard-bataller-canet-963394372/',
+  phone: '+34 615 180 314',
+  email: 'gerard.bataller.canet@gmail.com',
 };
+
+type CopiedField = 'phone' | 'email' | null;
 
 function GitHubIcon() {
   return (
     <svg
-      viewBox='0 0 24 24'
+      xmlns='http://www.w3.org/2000/svg'
+      viewBox='0 0 16 16'
       fill='currentColor'
+      className='h-6 w-6'
       aria-hidden='true'
-      className='h-5 w-5'
     >
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z'
-      />
+      <path d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z' />
     </svg>
   );
 }
@@ -39,19 +38,18 @@ function GitHubIcon() {
 function LinkedInIcon() {
   return (
     <svg
+      xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 24 24'
       fill='currentColor'
+      className='h-6 w-6'
       aria-hidden='true'
-      className='h-5 w-5'
     >
-      <path d='M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.1H5.67V18.5H8.34V10.1ZM7 6.38A1.55 1.55 0 1 0 7 9.48A1.55 1.55 0 0 0 7 6.38ZM18.34 13.56C18.34 11.15 16.92 9.86 14.89 9.86C13.45 9.86 12.71 10.65 12.35 11.21V10.1H9.77C9.8 10.83 9.77 18.5 9.77 18.5H12.44V13.81C12.44 13.56 12.46 13.31 12.53 13.13C12.73 12.64 13.19 12.13 13.96 12.13C14.95 12.13 15.67 12.88 15.67 13.98V18.5H18.34V13.56Z' />
+      <path d='M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z' />
     </svg>
   );
 }
 
-export default function NavSection() {
-  const [copied, setCopied] = useState(false);
-
+export function NavList() {
   const reportBand = (el: HTMLElement, id: string) => {
     setActiveNavTarget({
       key: `nav-${id}`,
@@ -75,79 +73,108 @@ export default function NavSection() {
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleCopyEmail = async () => {
+  return (
+    <nav className='hidden lg:block' aria-label='In-page jump links'>
+      <ul className='mt-16 w-max font-display'>
+        {NAV_ITEMS.map((item) => (
+          <li key={item.targetId}>
+            <button
+              type='button'
+              onClick={(event) => handleClick(event, item.targetId)}
+              onPointerEnter={(event) =>
+                reportBand(event.currentTarget, item.targetId)
+              }
+              onPointerLeave={clearBand}
+              onFocus={(event) =>
+                reportBand(event.currentTarget, item.targetId)
+              }
+              onBlur={clearBand}
+              className='group flex items-center py-3 text-sm uppercase tracking-wider text-text/75 transition-colors hover:text-highlight focus-visible:text-highlight'
+            >
+              <span className='mr-4 h-[1.5px] w-8 bg-text/40 transition-all group-hover:w-16 group-hover:bg-highlight group-focus-visible:w-16 group-focus-visible:bg-highlight' />
+              <span>{item.label}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
+export function ContactLinks() {
+  const [copied, setCopied] = useState<CopiedField>(null);
+
+  const handleCopy = async (
+    value: string,
+    field: Exclude<CopiedField, null>
+  ) => {
     try {
-      await navigator.clipboard.writeText(CONTACT.email);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(value);
+      setCopied(field);
+      window.setTimeout(() => {
+        setCopied((prev) => (prev === field ? null : prev));
+      }, 2000);
     } catch {
-      setCopied(false);
+      setCopied(null);
     }
   };
 
   return (
-    <div className='flex flex-1 flex-col justify-between'>
-      <nav className='flex flex-col items-start gap-3 font-display'>
-        {NAV_ITEMS.map((item) => (
-          <button
-            key={item.targetId}
-            type='button'
-            onClick={(event) => handleClick(event, item.targetId)}
-            onPointerEnter={(event) =>
-              reportBand(event.currentTarget, item.targetId)
-            }
-            onPointerLeave={clearBand}
-            onFocus={(event) => reportBand(event.currentTarget, item.targetId)}
-            onBlur={clearBand}
-            className='group flex items-center py-1.5 text-sm uppercase tracking-wider text-text/75 transition-colors hover:text-highlight focus-visible:text-highlight'
-          >
-            <span className='mr-4 h-[1.5px] w-8 bg-text/40 transition-all group-hover:w-16 group-hover:bg-highlight group-focus-visible:w-16 group-focus-visible:bg-highlight' />
-            <span>{item.label}</span>
-          </button>
-        ))}
-      </nav>
-
-      <div className='mt-auto flex flex-col items-start gap-2.5 pt-8 text-sm text-text/80'>
-        <div className='flex items-center gap-4 text-text/75'>
+    <div className='ml-1 flex flex-col items-start gap-2.5'>
+      <ul className='flex items-center gap-5' aria-label='Social media'>
+        <li className='shrink-0 text-xs'>
           <a
             href={CONTACT.github}
             target='_blank'
-            rel='noopener noreferrer'
+            rel='noreferrer noopener'
             aria-label='GitHub (opens in a new tab)'
-            className='transition-colors hover:text-highlight focus-visible:text-highlight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-highlight'
+            title='GitHub'
+            className='block text-text/75 transition-colors hover:text-highlight focus-visible:text-highlight'
           >
+            <span className='sr-only'>GitHub</span>
             <GitHubIcon />
           </a>
+        </li>
+        <li className='shrink-0 text-xs'>
           <a
             href={CONTACT.linkedin}
             target='_blank'
-            rel='noopener noreferrer'
+            rel='noreferrer noopener'
             aria-label='LinkedIn (opens in a new tab)'
-            className='transition-colors hover:text-highlight focus-visible:text-highlight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-highlight'
+            title='LinkedIn'
+            className='block text-text/75 transition-colors hover:text-highlight focus-visible:text-highlight'
           >
+            <span className='sr-only'>LinkedIn</span>
             <LinkedInIcon />
           </a>
-        </div>
+        </li>
+      </ul>
 
-        <a
-          href={`tel:${CONTACT.phone.replace(/\s+/g, '')}`}
-          className='text-text/80 transition-colors hover:text-highlight focus-visible:text-highlight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-highlight'
+      <div className='flex flex-col items-start gap-1.5 text-sm text-text/80'>
+        <button
+          type='button'
+          onClick={() => handleCopy(CONTACT.phone, 'phone')}
+          className='cursor-pointer text-left transition-colors hover:text-highlight focus-visible:text-highlight'
         >
-          {CONTACT.phone}
-        </a>
+          <span>{CONTACT.phone}</span>
+          <span className='ml-2 text-xs font-medium text-highlight'>
+            {copied === 'phone' ? 'copied' : 'copy'}
+          </span>
+        </button>
 
         <button
           type='button'
-          onClick={handleCopyEmail}
-          title='Copiar correo electrónico'
-          className='cursor-pointer text-left text-text/80 transition-colors hover:text-highlight focus-visible:text-highlight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-highlight'
+          onClick={() => handleCopy(CONTACT.email, 'email')}
+          className='cursor-pointer text-left transition-colors hover:text-highlight focus-visible:text-highlight'
         >
           <span>{CONTACT.email}</span>
           <span className='ml-2 text-xs font-medium text-highlight'>
-            {copied ? 'Copiado' : 'Copiar'}
+            {copied === 'email' ? 'copied' : 'copy'}
           </span>
         </button>
       </div>
     </div>
   );
 }
+
+export default NavList;

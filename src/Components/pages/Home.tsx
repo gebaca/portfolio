@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import NavSection from '../Sections/NavSection';
+import { ContactLinks, NavList } from '../Sections/NavSection';
 import About from '../Sections/About';
 import Experience from '../Sections/Experience';
 import Works from '../Sections/Works';
@@ -68,13 +68,13 @@ export default function Home() {
               products look, behave, and work.
             </p>
 
-            <div data-intro='nav' className='mt-16 hidden lg:block'>
-              <NavSection />
+            <div data-intro='nav' className='hidden lg:block'>
+              <NavList />
             </div>
           </div>
 
-          <div data-intro='social' className='mt-8 flex items-center gap-5'>
-            {/* GitHub, LinkedIn, etc. */}
+          <div data-intro='social' className='mt-8'>
+            <ContactLinks />
           </div>
         </header>
 
