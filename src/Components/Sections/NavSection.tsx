@@ -1,3 +1,6 @@
+import type { MouseEvent } from 'react';
+import { pulseHouses, setActiveNavTarget } from '../Houses/houseNav';
+
 interface NavItem {
   label: string;
   targetId: string;
@@ -10,11 +13,29 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 export default function NavSection() {
-  const handleScroll = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  // Hover y foco: las casas a la altura del ítem se acercan
+  const reportBand = (el: HTMLElement, id: string) => {
+    setActiveNavTarget({
+      key: `nav-${id}`,
+      getViewportRect: () => {
+        const rect = el.getBoundingClientRect();
+        return { top: rect.top, bottom: rect.bottom };
+      },
+    });
+  };
+
+  const clearBand = () => {
+    setActiveNavTarget(null);
+  };
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement>, id: string) => {
+    // Clic: empujón extra hacia el centro
+    const rect = event.currentTarget.getBoundingClientRect();
+    pulseHouses(rect.top + rect.height / 2);
+
+    document
+      .getElementById(id)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -23,7 +44,13 @@ export default function NavSection() {
         <button
           key={item.targetId}
           type='button'
-          onClick={() => handleScroll(item.targetId)}
+          onClick={(event) => handleClick(event, item.targetId)}
+          onPointerEnter={(event) =>
+            reportBand(event.currentTarget, item.targetId)
+          }
+          onPointerLeave={clearBand}
+          onFocus={(event) => reportBand(event.currentTarget, item.targetId)}
+          onBlur={clearBand}
           className='group flex items-center py-1.5 text-sm uppercase tracking-wider text-text/75 transition-colors hover:text-highlight focus-visible:text-highlight'
         >
           <span className='mr-4 h-[1.5px] w-8 bg-text/40 transition-all group-hover:w-16 group-hover:bg-highlight group-focus-visible:w-16 group-focus-visible:bg-highlight' />

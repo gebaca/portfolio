@@ -21,7 +21,8 @@ export default function Layout() {
   return (
     <>
       <ScrollToTop />
-      <HouseStrip />
+      <HouseStrip side='left' variant='nav' />
+      <HouseStrip side='right' />
       {/* relative z-10: el contenido queda por encima de las casas (z-0) */}
       <div className='relative z-10'>
         <Outlet />

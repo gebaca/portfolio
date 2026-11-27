@@ -1,14 +1,26 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParallaxStrip } from './useParallaxStrip';
+import type { StripVariant } from './useParallaxStrip';
 import {
   BASE_SCALE,
+  HOUSE_SHADOW,
   PEEK_PX,
   VERTICAL_OVERLAP_PX,
   buildPieces,
   getViewportFactor,
 } from './houses';
+import type { StripSide } from './houses';
 
-export default function HouseStrip() {
+interface HouseStripProps {
+  side?: StripSide;
+  variant?: StripVariant;
+}
+
+export default function HouseStrip({
+  side = 'right',
+  variant = 'full',
+}: HouseStripProps) {
+  const isLeft = side === 'left';
   const containerRef = useRef<HTMLDivElement | null>(null);
   const columnRef = useRef<HTMLDivElement | null>(null);
   const [factor, setFactor] = useState(() =>
@@ -21,8 +33,8 @@ export default function HouseStrip() {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  const pieces = useMemo(() => buildPieces(), []);
-  useParallaxStrip(containerRef, columnRef, pieces.length, pieces, factor);
+  const pieces = useMemo(() => buildPieces(side), [side]);
+  useParallaxStrip(containerRef, columnRef, pieces, factor, { variant });
 
   const scale = BASE_SCALE * factor;
 
@@ -30,7 +42,12 @@ export default function HouseStrip() {
     <div
       ref={containerRef}
       aria-hidden='true'
-      className='pointer-events-none fixed inset-y-0 right-0 z-0 select-none'
+      // En la izquierda se espeja todo el contenedor: imágenes, márgenes y
+      // dirección del desplazamiento se invierten sin tocar el hook.
+      style={isLeft ? { transform: 'scaleX(-1)' } : undefined}
+      className={`pointer-events-none fixed inset-y-0 z-0 select-none ${
+        isLeft ? 'left-0' : 'right-0'
+      }`}
     >
       <div
         ref={columnRef}
@@ -67,8 +84,9 @@ export default function HouseStrip() {
                 aspectRatio: `${piece.width} / ${piece.height}`,
                 marginRight: -Math.max(0, width - peek),
                 marginTop,
+                filter: HOUSE_SHADOW,
               }}
-              className='block h-auto max-w-none flex-none will-change-transform drop-shadow-[-6px_6px_8px_rgba(1,5,78,0.18)]'
+              className='block h-auto max-w-none flex-none will-change-transform'
             />
           );
         })}
