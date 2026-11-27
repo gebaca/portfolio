@@ -1,7 +1,7 @@
 export const MAX_SHIFT = 40; // desplazamiento normal de la ola con el puntero (px)
 export const HOVER_SHIFT = 140; // desplazamiento extra al hacer hover donde quieras (px)
 export const RADIUS = 220;
-export const PARALLAX = 0.6;
+export const PARALLAX = 0.2;
 
 export interface HoverBand {
   top: number;

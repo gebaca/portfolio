@@ -14,11 +14,13 @@ import type { StripSide } from './houses';
 interface HouseStripProps {
   side?: StripSide;
   variant?: StripVariant;
+  parallaxFactor?: number;
 }
 
 export default function HouseStrip({
   side = 'right',
   variant = 'full',
+  parallaxFactor,
 }: HouseStripProps) {
   const isLeft = side === 'left';
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -34,7 +36,11 @@ export default function HouseStrip({
   }, []);
 
   const pieces = useMemo(() => buildPieces(side), [side]);
-  useParallaxStrip(containerRef, columnRef, pieces, factor, { variant });
+  useParallaxStrip(containerRef, columnRef, pieces, factor, {
+    side,
+    variant,
+    parallaxFactor,
+  });
 
   const scale = BASE_SCALE * factor;
 
@@ -42,16 +48,15 @@ export default function HouseStrip({
     <div
       ref={containerRef}
       aria-hidden='true'
-      // En la izquierda se espeja todo el contenedor: imágenes, márgenes y
-      // dirección del desplazamiento se invierten sin tocar el hook.
-      style={isLeft ? { transform: 'scaleX(-1)' } : undefined}
       className={`pointer-events-none fixed inset-y-0 z-0 select-none ${
         isLeft ? 'left-0' : 'right-0'
       }`}
     >
       <div
         ref={columnRef}
-        className='relative flex flex-col items-end pt-16 pb-16'
+        className={`relative flex flex-col pt-16 pb-16 ${
+          isLeft ? 'items-start' : 'items-end'
+        }`}
       >
         {pieces.map((piece, index) => {
           const width = Math.round(piece.width * scale);
@@ -67,6 +72,7 @@ export default function HouseStrip({
 
           const baseTopMargin = index > 0 ? -VERTICAL_OVERLAP_PX : 0;
           const marginTop = baseTopMargin + prevOffsetY;
+          const tailMargin = -Math.max(0, width - peek);
 
           return (
             <img
@@ -82,7 +88,8 @@ export default function HouseStrip({
                 top: offsetY !== 0 ? `${offsetY}px` : undefined,
                 width,
                 aspectRatio: `${piece.width} / ${piece.height}`,
-                marginRight: -Math.max(0, width - peek),
+                marginLeft: isLeft ? tailMargin : undefined,
+                marginRight: isLeft ? undefined : tailMargin,
                 marginTop,
                 filter: HOUSE_SHADOW,
               }}

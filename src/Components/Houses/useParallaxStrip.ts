@@ -8,20 +8,25 @@ import {
   type ActiveFocusTarget,
 } from './houseFocus';
 import { getActiveNavTarget, subscribePulse } from './houseNav';
-import type { HousePiece } from './houses';
+import type { HousePiece, StripSide } from './houses';
 
-// 'full': parallax con el scroll, ola del ratón y reacción a las tarjetas.
-// 'nav': columna fija; solo reacciona a la navegación (hover, foco y clic).
 export type StripVariant = 'full' | 'nav';
 
 interface StripOptions {
+  side?: StripSide;
   variant?: StripVariant;
+  parallaxFactor?: number;
   itemSelector?: string;
   duration?: number;
 }
 
-// Cuánto se suma, como múltiplo del desplazamiento normal, en el punto álgido del empujón
 const PULSE_BOOST = 1.5;
+
+function sameBand(a: HoverBand | null, b: HoverBand | null): boolean {
+  if (a === b) return true;
+  if (!a || !b) return false;
+  return a.top === b.top && a.bottom === b.bottom;
+}
 
 export function useParallaxStrip(
   containerRef: RefObject<HTMLDivElement | null>,
@@ -31,11 +36,14 @@ export function useParallaxStrip(
   options: StripOptions = {}
 ) {
   const {
+    side = 'right',
     variant = 'full',
+    parallaxFactor = PARALLAX,
     itemSelector = '[data-piece]',
     duration = 0.25,
   } = options;
   const isFull = variant === 'full';
+  const dirSign = side === 'left' ? -1 : 1;
   const count = pieces.length;
 
   useGSAP(
@@ -75,11 +83,10 @@ export function useParallaxStrip(
             })
           );
 
-          const pulse = { amount: 0 }; // 0 = sin empujón, 1 = máximo
+          const pulse = { amount: 0 };
           let pulseY = 0;
           let pulseTimeline: gsap.core.Timeline | null = null;
 
-          // Solo 'full' usa el puntero global y las tarjetas
           let pointerY = Number.POSITIVE_INFINITY;
           let activeTarget: ActiveFocusTarget | null = isFull
             ? getActiveFocusTarget()
@@ -88,13 +95,11 @@ export function useParallaxStrip(
           let lastScroll = NaN;
           let lastPointer = NaN;
           let lastTargetKey: string | null = null;
+          let lastBand: HoverBand | null = null;
           let lastPulse = NaN;
 
           const render = () => {
-            // Sin parallax, el scroll no cuenta
-            const scrollY = isFull ? window.scrollY : 0;
-
-            // Fuente de la banda: tarjetas (full) o ítem de navegación (nav)
+            const scrollY = window.scrollY;
             const target = isFull ? activeTarget : getActiveNavTarget();
             const targetKey = target ? target.key : null;
             const rect = target ? target.getViewportRect() : null;
@@ -102,7 +107,6 @@ export function useParallaxStrip(
               ? { top: rect.top, bottom: rect.bottom }
               : null;
 
-            // En 'nav' el puntero global no cuenta: la "posición" es el centro del ítem
             const effectivePointerY = isFull
               ? pointerY
               : hoverBand
@@ -113,8 +117,8 @@ export function useParallaxStrip(
               scrollY === lastScroll &&
               effectivePointerY === lastPointer &&
               targetKey === lastTargetKey &&
-              pulse.amount === lastPulse &&
-              !hoverBand
+              sameBand(hoverBand, lastBand) &&
+              pulse.amount === lastPulse
             ) {
               return;
             }
@@ -122,9 +126,10 @@ export function useParallaxStrip(
             lastScroll = scrollY;
             lastPointer = effectivePointerY;
             lastTargetKey = targetKey;
+            lastBand = hoverBand;
             lastPulse = pulse.amount;
 
-            if (isFull) setColumnY(-Math.round(scrollY * PARALLAX));
+            setColumnY(-Math.round(scrollY * parallaxFactor));
 
             for (let i = 0; i < elements.length; i++) {
               const pieceRect = elements[i].getBoundingClientRect();
@@ -134,7 +139,6 @@ export function useParallaxStrip(
                 getShift(effectivePointerY, pieceCenterY, hoverBand) +
                 extraXs[i];
 
-              // Empujón: misma curva que la ola, centrada en el punto del clic
               if (pulse.amount > 0) {
                 shift +=
                   getShift(pulseY, pieceCenterY, null) *
@@ -142,7 +146,7 @@ export function useParallaxStrip(
                   pulse.amount;
               }
 
-              quickXs[i](shift);
+              quickXs[i](shift * dirSign);
             }
           };
 
@@ -201,7 +205,16 @@ export function useParallaxStrip(
     },
     {
       scope: containerRef,
-      dependencies: [count, pieces, factor, variant, itemSelector, duration],
+      dependencies: [
+        count,
+        pieces,
+        factor,
+        side,
+        variant,
+        parallaxFactor,
+        itemSelector,
+        duration,
+      ],
     }
   );
 }

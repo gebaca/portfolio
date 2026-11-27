@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import HouseStrip from './Houses/HouseStrip';
+import { PARALLAX } from './Houses/motion';
 
 // Al cambiar de ruta vuelve arriba, salvo que la URL lleve un #hash (entonces va a esa sección)
 function ScrollToTop() {
@@ -21,8 +22,8 @@ export default function Layout() {
   return (
     <>
       <ScrollToTop />
-      <HouseStrip side='left' variant='nav' />
-      <HouseStrip side='right' />
+      <HouseStrip side='left' variant='nav' parallaxFactor={PARALLAX} />
+      <HouseStrip side='right' variant='full' parallaxFactor={PARALLAX} />
       {/* relative z-10: el contenido queda por encima de las casas (z-0) */}
       <div className='relative z-10'>
         <Outlet />

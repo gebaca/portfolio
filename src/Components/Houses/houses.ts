@@ -44,20 +44,18 @@ export const PIECES_RIGHT: Omit<HousePiece, 'id'>[] = [
 // Cada archivo nuevo se exporta volteado horizontalmente: el contenedor de la
 // izquierda lo espeja de vuelta, así que no hay que tocar nada más.
 export const PIECES_LEFT: Omit<HousePiece, 'id'>[] = [
-  { image: '/casas/h1.webp', width: 902, height: 334 },
-  { image: '/casas/h2.webp', width: 910, height: 147 },
-  { image: '/casas/h3.webp', width: 931, height: 134 },
+  { image: '/casas/izquierda/h1.webp', width: 786, height: 339 },
+  { image: '/casas/izquierda/h2.webp', width: 700, height: 115 },
+  { image: '/casas/izquierda/h3.webp', width: 796, height: 176 },
   {
-    image: '/casas/h4.webp',
-    width: 1028,
-    height: 537,
-    peek: 220,
-    shiftX: 2,
-    offsetY: -40,
+    image: '/casas/izquierda/h4.webp',
+    width: 881,
+    height: 326,
   },
-  { image: '/casas/h5.webp', width: 921, height: 119 },
-  { image: '/casas/h6.webp', width: 903, height: 224 },
-  { image: '/casas/h7.webp', width: 969, height: 213 },
+  { image: '/casas/izquierda/h5.webp', width: 849, height: 220 },
+  { image: '/casas/izquierda/h6.webp', width: 729, height: 238 },
+  { image: '/casas/izquierda/h7.webp', width: 723, height: 262 },
+  { image: '/casas/izquierda/h8.webp', width: 710, height: 263 },
 ];
 
 export function buildPieces(
