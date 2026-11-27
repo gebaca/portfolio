@@ -66,13 +66,12 @@
   }
 }
 /* Cuando una tarjeta tiene hover o foco, el resto se desenfoca muy ligeramente */
-@media (hover: hover) {
+@media (hover: hover) and (min-width: 1024px) {
   .works-list:has(.work-card:is(:hover, :focus-within))
     .work-card:not(:is(:hover, :focus-within)) {
     opacity: 0.6;
   }
 }
-
 /* Papel con grano procedural. Provisional: se sustituirá por la foto del papel real. */
 body::before {
   content: '';

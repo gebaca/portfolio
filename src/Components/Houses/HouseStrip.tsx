@@ -18,6 +18,15 @@ interface HouseStripProps {
   shiftScale?: number;
 }
 
+const FADE_MIN_WIDTH = 640;
+const FADE_MAX_WIDTH = 1280;
+
+function getViewportOpacity(viewportWidth: number): number {
+  const raw =
+    (viewportWidth - FADE_MIN_WIDTH) / (FADE_MAX_WIDTH - FADE_MIN_WIDTH);
+  return Math.min(1, Math.max(0, Number(raw.toFixed(3))));
+}
+
 export default function HouseStrip({
   side = 'right',
   variant = 'full',
@@ -27,15 +36,16 @@ export default function HouseStrip({
   const isLeft = side === 'left';
   const containerRef = useRef<HTMLDivElement | null>(null);
   const columnRef = useRef<HTMLDivElement | null>(null);
-  const [factor, setFactor] = useState(() =>
-    getViewportFactor(window.innerWidth)
-  );
+  const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
 
   useEffect(() => {
-    const update = () => setFactor(getViewportFactor(window.innerWidth));
+    const update = () => setViewportWidth(window.innerWidth);
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
   }, []);
+
+  const factor = getViewportFactor(viewportWidth);
+  const opacity = getViewportOpacity(viewportWidth);
 
   const pieces = useMemo(() => buildPieces(side), [side]);
   useParallaxStrip(containerRef, columnRef, pieces, factor, {
@@ -51,6 +61,7 @@ export default function HouseStrip({
     <div
       ref={containerRef}
       aria-hidden='true'
+      style={{ opacity }}
       className={`pointer-events-none fixed inset-y-0 z-0 select-none ${
         isLeft ? 'left-0' : 'right-0'
       }`}
